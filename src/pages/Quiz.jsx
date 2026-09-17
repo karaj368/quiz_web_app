@@ -1,23 +1,39 @@
-
+import { useEffect, useContext } from "react";
+import { QuizContext } from "../context/QuizContext";
+import { useNavigate } from "react-router-dom";
+import ProgressBar from "../components/ProgressBar";
+import QuestionCard from "../components/QuestionCard";
+import useTimer from "../hooks/useTimer";
+import Timer from "../components/Timer";
 
 function Quiz() {
+  const { state, dispatch } = useContext(QuizContext);
+  const { index, questions } = state;
+  const navigate = useNavigate();
+  const {time, reset} = useTimer(15); 
+
+  if (!questions || questions.length === 0) {
+    return <h2 className="text-center mt-5">Loading Questions...</h2>;
+  }
+  if (index >= questions.length) {
+    dispatch({ type: "FINISH" });
+    navigate("/result");
+    return null;
+  }
+
+  const current = questions[index]
+
+  const handleSelect = (option) =>{
+    dispatch({type: "ANSWER", payload: option === current.answer})
+  }
+
   return (
-     <div className="container mt-4">
-        <div className="alert alert-info text-center fw-bold">⏳ Time Left: 15s</div>
-        <div className="progress mb-3">
-            <div className="progress-bar" style="width: 50%;">50%</div>
-        </div>
-        <div className="card shadow p-4">
-            <h4 className="fw-semibold">React is mainly used for?</h4>
-            <div className="mt-3">
-                <button className="btn btn-outline-primary w-100 mt-2">Styling</button>
-                <button className="btn btn-outline-primary w-100 mt-2">Mobile Apps</button>
-                <button className="btn btn-outline-primary w-100 mt-2">Building UI</button>
-                <button className="btn btn-outline-primary w-100 mt-2">None</button>
-            </div>
-        </div>
+    <div className="container mt-4">
+      <Timer time={time} />
+      <ProgressBar current={index} total={questions.length} />
+      <QuestionCard question={current.question} options={current.options} onSelect={handleSelect}/>
     </div>
-  )
+  );
 }
 
-export default Quiz
+export default Quiz;

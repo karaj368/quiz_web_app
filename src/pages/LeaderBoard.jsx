@@ -17,14 +17,14 @@ function LeaderBoard() {
             <tbody>
                 <tr>
                     <td>1</td>
-                    <td>YahuBaba</td>
+                    <td>Karaj</td>
                     <td>1</td>
                     <td>100%</td>
                     <td>01/01/2026, 00:00:00</td>
                 </tr>
                 <tr>
                     <td>2</td>
-                    <td>Sanchit</td>
+                    <td>Singh</td>
                     <td>1</td>
                     <td>50%</td>
                     <td>01/01/2026, 00:00:00</td>
